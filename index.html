@@ -1,185 +1,383 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESP Tournament - Official App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Tournament - Official App</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-:root{
-    --primary:#ff2d55;
-    --secondary:#ff7a00;
-    --dark:#0f172a;
-}
+    <style>
+        :root {
+            --primary: #ff2d55;
+            --secondary: #ff7a00;
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.1);
+            --accent: #00f2fe;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Hind Siliguri',sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-body{
-    background:linear-gradient(135deg,#ff7a00,#ff2d55);
-    color:white;
-    text-align:center;
-    overflow-x:hidden;
-}
+        body {
+            background: radial-gradient(circle at top, #1e293b, #0f172a);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
 
-.hero{
-    padding:120px 20px 80px;
-}
+        /* ✨ dynamic background effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1;
+            z-index: -1;
+        }
 
-.hero h1{
-    font-size:2.5rem;
-    font-weight:700;
-    margin-bottom:15px;
-}
+        /* 🔥 LOGO DESIGN WITH DUAL PULSE */
+        .logo-wrapper {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 4s ease-in-out infinite;
+        }
 
-.hero p{
-    opacity:0.9;
-    margin-bottom:40px;
-}
+        .logo-wrapper::before, .logo-wrapper::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            animation: pulse-ring 2s linear infinite;
+        }
 
-.download-btn{
-    background:white;
-    color:var(--primary);
-    padding:20px 55px;
-    border-radius:60px;
-    font-size:1.2rem;
-    font-weight:700;
-    text-decoration:none;
-    display:inline-block;
-    box-shadow:0 15px 35px rgba(0,0,0,0.3);
-    transition:0.3s;
-    position:relative;
-    overflow:hidden;
-}
+        .logo-wrapper::after {
+            animation-delay: 1s;
+        }
 
-.download-btn:hover{
-    transform:scale(1.07);
-}
+        .logo-wrapper img {
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            z-index: 2;
+        }
 
-.loading{
-    display:none;
-    margin-top:20px;
-    font-size:0.9rem;
-}
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
 
-.features{
-    background:white;
-    color:var(--dark);
-    border-top-left-radius:40px;
-    border-top-right-radius:40px;
-    padding:60px 20px;
-    margin-top:60px;
-}
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
 
-.card{
-    background:#f8fafc;
-    padding:25px;
-    border-radius:20px;
-    margin:15px auto;
-    max-width:350px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.08);
-}
+        .hero {
+            padding: 80px 20px 60px;
+            background: linear-gradient(to bottom, rgba(255, 45, 85, 0.2), transparent);
+        }
 
-.card h3{
-    color:var(--primary);
-    margin-bottom:10px;
-}
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #ff7a00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.install-popup{
-    position:fixed;
-    bottom:-100%;
-    left:0;
-    width:100%;
-    background:white;
-    color:var(--dark);
-    padding:25px;
-    border-top-left-radius:30px;
-    border-top-right-radius:30px;
-    box-shadow:0 -10px 30px rgba(0,0,0,0.3);
-    transition:0.4s;
-}
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 35px;
+        }
 
-.install-popup.active{
-    bottom:0;
-}
+        /* 📥 DOWNLOAD BUTTON ANIMATION */
+        .download-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 45px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(255, 45, 85, 0.4);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
 
-.install-popup h3{
-    margin-bottom:10px;
-    color:var(--primary);
-}
+        .download-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 45, 85, 0.6);
+        }
 
-.close-btn{
-    margin-top:15px;
-    background:var(--primary);
-    color:white;
-    border:none;
-    padding:10px 25px;
-    border-radius:30px;
-    cursor:pointer;
-}
-</style>
+        /* 📱 FEATURES SECTION */
+        .features {
+            background: #fff;
+            color: var(--dark);
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 60px 20px;
+            margin-top: 40px;
+        }
+
+        .section-title {
+            color: var(--dark);
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 30px;
+            border-radius: 25px;
+            transition: 0.3s;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* 💎 PRAISE / WHY CHOOSE US SECTION */
+        .trust-section {
+            background: var(--dark);
+            color: white;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .trust-box {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px 20px;
+            border-radius: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .trust-box h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .trust-item i {
+            background: var(--primary);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        /* POPUP */
+        .install-popup {
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            color: var(--dark);
+            padding: 30px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.5);
+            transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 100;
+        }
+
+        .install-popup.active { bottom: 0; }
+
+        .close-btn {
+            width: 100%;
+            margin-top: 20px;
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: repeat(3, 1); }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="hero">
-    <h1>বাংলাদেশের সেরা টুর্নামেন্ট অ্যাপ 🔥</h1>
-    <p>এখনই ডাউনলোড করুন এবং গেম খেলেই আয় করুন 💰</p>
-
-    <a href="esp-tour-2.apk" class="download-btn" onclick="startDownload(event)">
-        📥 এখনই ডাউনলোড করুন
-    </a>
-
-    <div class="loading" id="loadingText">
-        ⏳ ডাউনলোড শুরু হচ্ছে...
+    <div class="logo-wrapper">
+        <img src="https://i.ibb.co.com/zHnkRnn5/esp-letter-logo-design-for-technology-company-esp-logo-design-black-and-white-color-combination-esp.jpg" alt="ESP Logo">
     </div>
 
-    <p style="margin-top:15px;font-size:0.8rem;">ভার্সন ২.০ | সাইজ ১২ এমবি</p>
+    <h1>ESP TOUR 2.0</h1>
+    <p>বাংলাদেশের ১ নম্বর বিশ্বস্ত ই-স্পোর্টস প্ল্যাটফর্ম। এখন গেম খেলা হবে আর সাথে ইনকামও হবে ধুমধাম! 🚀</p>
+
+    <a href="esp-tour-2.apk" class="download-btn" onclick="startDownload(event)">
+        <i class="fas fa-cloud-download-alt"></i> এখনই ডাউনলোড করুন
+    </a>
+
+    <div class="loading" id="loadingText" style="display:none; margin-top: 20px; color: var(--accent);">
+        <i class="fas fa-spinner fa-spin"></i> ফাইলটি তৈরি হচ্ছে, দয়া করে অপেক্ষা করুন...
+    </div>
+
+    <p style="margin-top:20px; font-size:0.9rem; opacity: 0.7;">
+        <i class="fas fa-shield-alt"></i> 100% নিরাপদ ও ভাইরাস মুক্ত
+    </p>
 </div>
 
 <div class="features">
-    <div class="card">
-        <h3>🎮 লাইভ ম্যাচ</h3>
-        <p>প্রতিদিন কাস্টম রুম টুর্নামেন্ট খেলুন।</p>
-    </div>
-    <div class="card">
-        <h3>💰 দ্রুত পেমেন্ট</h3>
-        <p>জিতলেই বিকাশ / নগদে টাকা পান।</p>
-    </div>
-    <div class="card">
-        <h3>⚡ ইনস্ট্যান্ট জয়েন</h3>
-        <p>১ ক্লিকে ম্যাচে অংশগ্রহণ করুন।</p>
+    <h2 class="section-title">আমাদের বিশেষত্ব 🔥</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fas fa-gamepad"></i>
+            <h3>আনলিমিটেড ম্যাচ</h3>
+            <p>ফ্রি ফায়ার,  গেমের টুর্নামেন্ট খেলুন প্রতিদিন।</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-bolt"></i>
+            <h3>অটো পেমেন্ট</h3>
+            <p>ম্যাচ শেষ হওয়ার সাথে সাথে আপনার ওয়ালেটে টাকা পৌঁছে যাবে।</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-headset"></i>
+            <h3>২৪/৭ সাপোর্ট</h3>
+            <p>যেকোনো সমস্যায় আমাদের কাস্টমার কেয়ার পাবেন সবসময় আপনার পাশে।</p>
+        </div>
     </div>
 </div>
 
+<div class="trust-section">
+    <div class="trust-box">
+        <h2>কেন ESP Tournament সেরা? 🏆</h2>
+        <p style="margin-bottom: 30px;">হাজার হাজার গেমার আমাদের ওপর কেন বিশ্বাস করে?</p>
+        
+        <div class="trust-item">
+            <i class="fas fa-check"></i>
+            <div>
+                <strong>দ্রুত উইথড্র:</strong> বিকাশ, নগদ বা রকেটের মাধ্যমে মাত্র ১০ মিনিটে পেমেন্ট।
+            </div>
+        </div>
+        
+        <div class="trust-item">
+            <i class="fas fa-user-shield"></i>
+            <div>
+                <strong>নিরাপদ গেমিং:</strong> আমাদের অ্যাপে কোনো হ্যাকার এলাউড নেই, তাই আপনি পাবেন ফেয়ার গেমপ্লে।
+            </div>
+        </div>
+
+        <div class="trust-item">
+            <i class="fas fa-star"></i>
+            <div>
+                <strong>ইউজার ফ্রেন্ডলি:</strong> খুব সহজ ইন্টারফেস, যা ছোট-বড় সবাই সহজে ব্যবহার করতে পারবে।
+            </div>
+        </div>
+
+        <p style="margin-top: 20px; font-style: italic; color: #aaa;">"সেরা গেমারদের সেরা ঠিকানা - ESP Tournament"</p>
+    </div>
+</div>
+
+<div style="padding: 40px 20px; font-size: 0.8rem; opacity: 0.5;">
+    © 2026 ESP Tournament | All Rights Reserved
+</div>
+
 <div class="install-popup" id="installPopup">
-    <h3>📲 কিভাবে ইনস্টল করবেন?</h3>
-    <p>১. ডাউনলোড শেষ হলে APK ওপেন করুন।<br>
-       ২. Allow unknown sources দিন।<br>
-       ৩. Install চাপুন।</p>
-    <button class="close-btn" onclick="closePopup()">ঠিক আছে</button>
+    <h3 style="color: var(--primary); margin-bottom: 15px;">📥 ডাউনলোড শুরু হয়েছে!</h3>
+    <p style="text-align: left; font-size: 0.9rem; line-height: 1.6;">
+        ১. ডাউনলোড শেষ হলে ফাইলটি ক্লিক করুন।<br>
+        ২. যদি "Unknown Sources" ব্লক দেখায়, তবে সেটিংস থেকে <b>Allow</b> করুন।<br>
+        ৩. ইনস্টল বাটনে ক্লিক করে গেমিং দুনিয়ায় প্রবেশ করুন!
+    </p>
+    <button class="close-btn" onclick="closePopup()">বুঝেছি, ঠিক আছে</button>
 </div>
 
 <script>
 function startDownload(e){
     e.preventDefault();
     document.getElementById("loadingText").style.display="block";
+    
+    // Smooth scroll to loading text
+    window.scrollTo({
+        top: 200,
+        behavior: 'smooth'
+    });
 
     setTimeout(function(){
         window.location.href="esp-tour-2.apk";
         document.getElementById("installPopup").classList.add("active");
-    },1500);
+        document.getElementById("loadingText").innerHTML = "<i class='fas fa-check-circle'></i> ডাউনলোড শুরু হয়েছে!";
+    }, 2000);
 }
 
 function closePopup(){
     document.getElementById("installPopup").classList.remove("active");
 }
+
+// Reveal animation on scroll
+window.addEventListener('scroll', function() {
+    let cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        let position = card.getBoundingClientRect().top;
+        if(position < window.innerHeight - 100) {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+        }
+    });
+});
 </script>
 
 </body>
